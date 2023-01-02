@@ -1,0 +1,67 @@
+project:
+  type: website
+  output-dir: docs
+  preview: 
+    port: 4087
+website:
+  navbar: 
+    logo: "img/csese.jpeg"
+    left: 
+      - href: index.qmd
+        text: Home
+      - intro.qmd
+      - files_directories.qmd
+      - HPC.qmd
+  page-navigation: true
+  title: "Unix Shell" 
+  site-url: "https://mesfind.github.io/unix-shell" 
+  repo-url: https://github.com/mesfind/unix-shell
+  repo-actions: [edit, issue]
+  page-footer:
+    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    left: "&copy; CC-By mesfind, 2022"
+  sidebar:
+    logo: "img/csese.jpeg"
+    pinned: true
+    align: center
+    tools: 
+      - icon: globe
+        href: https://mesfind.github.io
+        text: "Mesfin Diro"
+      - icon: github
+        href: https://github.com/mesfind/unix-shell
+        text: "Unix Shell Tutorial"
+      - icon: twitter
+        href: https://twitter.com/mesfindiro
+        text: "Mesfin Diro Twitter"
+    style: "docked"
+    search: true
+    collapse-level: 2
+    contents:
+      - href: index.qmd
+        text: Welcome to csese
+      - section: "Basic of Linux Shell"
+        contents: 
+          - intro.qmd
+          - files_directories.qmd
+      - section: "Basic of HPC"
+        contents: 
+          - HPC.qmd
+  
+engine: jupyter
+
+execute:
+  freeze: auto
+bibliography: references.bib
+number-depth: 2
+format:
+  html:
+    theme: cosmo
+    #code-line-numbers: true
+    #embed-resources: true
+    self-contained-math: true
+  #pdf:
+  #  documentclass: scrreprt
+
+editor: visual
+

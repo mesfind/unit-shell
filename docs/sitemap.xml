@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://mesfind.github.io/unix-shell/intro.html</loc>
+    <lastmod>2023-01-02T18:01:48.928Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mesfind.github.io/unix-shell/index.html</loc>
+    <lastmod>2023-01-02T18:01:56.777Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mesfind.github.io/unix-shell/files_directories.html</loc>
+    <lastmod>2023-01-02T18:01:49.635Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mesfind.github.io/unix-shell/references.html</loc>
+    <lastmod>2023-01-02T18:01:49.929Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mesfind.github.io/unix-shell/HPC.html</loc>
+    <lastmod>2023-01-02T18:01:56.280Z</lastmod>
+  </url>
+</urlset>
