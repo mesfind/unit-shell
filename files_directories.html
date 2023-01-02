@@ -92,7 +92,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./HPC.html" rel="next">
+<link href="./pipes_filters.html" rel="next">
 <link href="./intro.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -133,9 +133,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./img/csese.jpeg" alt="" class="navbar-logo">
-    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Unix Shell</span>
     </a>
@@ -155,11 +152,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./files_directories.html">
- <span class="menu-text">Working with Files and Directories</span></a>
+ <span class="menu-text">Files and Directories</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./pipes_filters.html">
+ <span class="menu-text">Pipes and Filters</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./HPC.html">
- <span class="menu-text">HPC</span></a>
+ <span class="menu-text">Introducing HPC</span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -216,7 +217,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./files_directories.html" class="sidebar-item-text sidebar-link active">Working with Files and Directories</a>
+  <a href="./files_directories.html" class="sidebar-item-text sidebar-link active">Files and Directories</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./pipes_filters.html" class="sidebar-item-text sidebar-link">Pipes and Filters</a>
   </div>
 </li>
       </ul>
@@ -231,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./HPC.html" class="sidebar-item-text sidebar-link">HPC</a>
+  <a href="./HPC.html" class="sidebar-item-text sidebar-link">Introducing HPC</a>
   </div>
 </li>
       </ul>
@@ -246,23 +252,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<section id="working-with-files-and-directories" class="level1">
-<h1>Working with Files and Directories</h1>
+<section id="files-and-directories" class="level1">
+<h1>Files and Directories</h1>
 <p>Let’s create a new directory called thesis using the command <code>mkdir QE</code> (which has no output):</p>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mkdir QE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mkdir qe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As you might guess from its name, <code>mkdir</code> means “make directory”. Since <code>QE</code> is a relative path (i.e., doesn’t have a leading slash), the new directory is created in the current working directory:</p>
-<p>Since we’ve just created the <code>QE</code> directory, there’s nothing in it yet:</p>
+<p>As you might guess from its name, <code>mkdir</code> means “make directory”. Since <code>qe</code> is a relative path (i.e., doesn’t have a leading slash), the new directory is created in the current working directory:</p>
+<p>Since we’ve just created the <code>qe</code> directory, there’s nothing in it yet:</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ls <span class="op">-</span>F QE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ls <span class="op">-</span>F qe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ls: qe: No such file or directory</code></pre>
 </div>
-<p>Let’s change our working directory to <code>QE</code> using <code>cd</code>, then run a text editor called <code>vi</code> to create a file called <code>si.in</code> :</p>
+</div>
+<section id="moving-files-around" class="level2">
+<h2 class="anchored" data-anchor-id="moving-files-around">Moving Files Around</h2>
+<p>We can move our new file into the new directory with the move command, mv. The syntax of mv is $ mv file_being_moved location_moving_to. Moving our new file “QE” to our new directory “qe” can be done as follows:</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>$ cd QE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mv qe QE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>mv: rename qe to QE: No such file or directory</code></pre>
+</div>
 </div>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>$ vi si.<span class="kw">in</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>$ cd QE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s change our working directory to <code>QE</code> using <code>cd</code>, then run a text editor called <code>vi</code> to create a file called <code>si.in</code> :</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>$ vi si.<span class="kw">in</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="which-editor" class="level3">
 <h3 class="anchored" data-anchor-id="which-editor">Which Editor?</h3>
@@ -270,7 +288,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="vivim-editor" class="level3">
 <h3 class="anchored" data-anchor-id="vivim-editor"><strong>Vi/Vim Editor</strong></h3>
-<p><a href="https://www.tecmint.com/install-vim-in-linux/" title="How to Install Latest Vim Editor in Linux Systems">Vim</a>&nbsp;is a powerful command-line based text editor that has enhanced the functionalities of the old Unix&nbsp;<a href="https://www.tecmint.com/vi-editor-usage/" title="How to Install and Use vi/vim as a Full Text Editor – Part 2">Vi text editor</a>. It is one the most popular and widely used text editors among System Administrators and programmers that is why many users often refer to it as a programmer's editor.</p>
+<p><a href="https://www.tecmint.com/install-vim-in-linux/" title="How to Install Latest Vim Editor in Linux Systems">Vim</a>&nbsp;is a powerful command-line based text editor that has enhanced the functionalities of the old Unix&nbsp;<a href="https://www.tecmint.com/vi-editor-usage/" title="How to Install and Use vi/vim as a Full Text Editor – Part 2">Vi text editor</a>. It is one the most popular and widely used text editors among System Administrators and programmers that is why many users often refer to it as a programmer’s editor.</p>
 <div class="callout-tip callout callout-style-default callout-captioned">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -293,8 +311,99 @@ Vi/Vim Save and Quit command
 <section id="creating-files-in-different-way" class="level3">
 <h3 class="anchored" data-anchor-id="creating-files-in-different-way">Creating Files in Different way</h3>
 <p>We have seen how to create text files using the <code>vi/vim</code> editor. Now, try the following command in your home directory:</p>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>touch QE<span class="op">/</span>si.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>touch QE<span class="op">/</span>si.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="copying-files" class="level2">
+<h2 class="anchored" data-anchor-id="copying-files">Copying Files</h2>
+<p>We can also copy files, leaving the original file while a second version is created either elsewhere or in the same location. The copy command is cp and its syntax is the same as for mv: $ cp file_being_copied location_copying_to. We can create a copy of “QE” into “qe” directory as follows:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cp QE qe </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cp: QE: No such file or directory</code></pre>
+</div>
+</div>
+</section>
+<section id="removing-files-and-directories" class="level2">
+<h2 class="anchored" data-anchor-id="removing-files-and-directories">Removing Files and Directories</h2>
+<p>If we try to remove the entire thesis directory using <code>rm QE</code>, we get an error message:</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rm QE</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-warning callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Using rm Safely
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What happens when we execute&nbsp;<code>rm -i QE/si.out</code>? Why would we want this protection when using&nbsp;<code>rm</code>?</p>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>rm: remove regular file 'QE/si.out'?</code></p>
+<p>The -i flag will prompt before every removal. The Unix shell doesn’t have a trash bin, so all the files removed will disappear forever. By using the -i flag, we have the chance to check that we are deleting only the files that we want to remove.</p>
+</div>
+</div>
+</div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+With Great Power Comes Great Responsibility
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Removing the files in a directory recursively can be a very dangerous operation. If we’re concerned about what we might be deleting we can add the “interactive” flag&nbsp;<code>-i</code>&nbsp;to&nbsp;<code>rm</code> which will ask us for confirmation before each step</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>$ rm <span class="op">-</span>r <span class="op">-</span>i QE</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  rm: descend into directory ‘QE’? y</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  rm: remove regular <span class="bu">file</span> ‘QE<span class="op">/</span>si.in’? y</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  rm: remove regular <span class="bu">file</span> ‘QE<span class="op">/</span>si.out’? y</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  rm: remove directory ‘QE’? y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><code>cp old new</code>&nbsp;copies a file.</p></li>
+<li><p><code>mkdir path</code>&nbsp;creates a new directory.</p></li>
+<li><p><code>mv old new</code>&nbsp;moves (renames) a file or directory.</p></li>
+<li><p><code>rm path</code>&nbsp;removes (deletes) a file.</p></li>
+<li><p><code>*</code>&nbsp;matches zero or more characters in a filename, so&nbsp;<code>*.txt</code>&nbsp;matches all files ending in&nbsp;<code>.txt</code>.</p></li>
+<li><p><code>?</code>&nbsp;matches any single character in a filename, so&nbsp;<code>?.txt</code>&nbsp;matches&nbsp;<code>a.txt</code>&nbsp;but not&nbsp;<code>any.txt</code>.</p></li>
+<li><p>Use of the Control key may be described in many ways, including&nbsp;<code>Ctrl-X</code>,&nbsp;<code>Control-X</code>, and&nbsp;<code>^X</code>.</p></li>
+<li><p>The shell does not have a trash bin: once something is deleted, it's really gone.</p></li>
+<li><p>Depending on the type of work you do, you may need a more powerful text editor than <code>vi</code>.</p></li>
+</ul>
+</div>
 </div>
 
 
@@ -442,16 +551,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./HPC.html" class="pagination-link">
-        <span class="nav-page-text">HPC</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./pipes_filters.html" class="pagination-link">
+        <span class="nav-page-text">Pipes and Filters</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">© CC-By mesfind, 2022</div>   
-    <div class="nav-footer-right">This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</div>
+    <div class="nav-footer-left">© CC-By Mesfin Diro, 2022</div>   
+    <div class="nav-footer-right">Welcome to Computational Science &amp; Engineering Society of Ethiopia</div>
   </div>
 </footer>
 
