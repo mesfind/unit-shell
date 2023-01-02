@@ -1,0 +1,21 @@
+# Pipes and Filters
+
+Now that we know a few basic commands, we can finally look at the shell’s most powerful feature: the ease with which it lets us combine existing programs in new ways. We’ll start with a directory called molecules that contains six files describing some simple organic molecules.
+
+```{python}
+#| eval: false
+
+$ ls mini_workshop/Si
+```
+
+
+Let’s go into that directory with cd and run the command `wc *.in`. `wc` is the “word count” command: it counts the number of lines, words, and characters in files (from left to right, in that order).
+
+```{python}
+#| eval: false
+
+cd mini_workshop/Si
+$ wc *.in
+```
+
+

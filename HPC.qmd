@@ -1,4 +1,4 @@
-# HPC
+# Introducing HPC
 
 The benefits of using HPC systems for research often far outweigh the cost of learning to use a Shell and include:
 

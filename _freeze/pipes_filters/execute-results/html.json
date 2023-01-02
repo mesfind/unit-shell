@@ -1,0 +1,11 @@
+{
+  "hash": "ae7ca722a6f7484f942bd0ef4a19be84",
+  "result": {
+    "markdown": "# Pipes and Filters\n\nNow that we know a few basic commands, we can finally look at the shell’s most powerful feature: the ease with which it lets us combine existing programs in new ways. We’ll start with a directory called molecules that contains six files describing some simple organic molecules.\n\n::: {.cell execution_count=1}\n``` {.python .cell-code}\n$ ls mini_workshop/Si\n```\n:::\n\n\nLet’s go into that directory with cd and run the command `wc *.in`. `wc` is the “word count” command: it counts the number of lines, words, and characters in files (from left to right, in that order).\n\n::: {.cell execution_count=2}\n``` {.python .cell-code}\ncd mini_workshop/Si\n$ wc *.in\n```\n:::\n\n\n",
+    "supporting": [
+      "pipes_filters_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

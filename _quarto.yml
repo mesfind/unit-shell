@@ -5,12 +5,13 @@ project:
     port: 4087
 website:
   navbar: 
-    logo: "img/csese.jpeg"
+    #logo: "img/csese.jpeg"
     left: 
       - href: index.qmd
         text: Home
       - intro.qmd
       - files_directories.qmd
+      - pipes_filters.qmd
       - HPC.qmd
   page-navigation: true
   title: "Unix Shell" 
@@ -18,8 +19,8 @@ website:
   repo-url: https://github.com/mesfind/unix-shell
   repo-actions: [edit, issue]
   page-footer:
-    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
-    left: "&copy; CC-By mesfind, 2022"
+    right: "Welcome to Computational Science & Engineering Society of Ethiopia"
+    left: "&copy; CC-By Mesfin Diro, 2022"
   sidebar:
     logo: "img/csese.jpeg"
     pinned: true
@@ -44,6 +45,7 @@ website:
         contents: 
           - intro.qmd
           - files_directories.qmd
+          - pipes_filters.qmd
       - section: "Basic of HPC"
         contents: 
           - HPC.qmd

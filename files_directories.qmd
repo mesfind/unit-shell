@@ -1,27 +1,41 @@
-# Working with Files and Directories
+#  Files and Directories
 
 Let's create a new directory called thesis using the command `mkdir QE` (which has no output):
 
 ```{python}
 #| eval: false
-mkdir QE
+mkdir qe
 ```
 
-As you might guess from its name, `mkdir` means "make directory". Since `QE` is a relative path (i.e., doesn't have a leading slash), the new directory is created in the current working directory:
+As you might guess from its name, `mkdir` means "make directory". Since `qe` is a relative path (i.e., doesn't have a leading slash), the new directory is created in the current working directory:
 
-Since we've just created the `QE` directory, there's nothing in it yet:
+Since we've just created the `qe` directory, there's nothing in it yet:
 
 ```{python}
-ls -F QE
+ls -F qe
 ```
 
-Let's change our working directory to `QE` using `cd`, then run a text editor called `vi` to create a file called `si.in` :
+
+## Moving Files Around
+
+We can move our new file into the new directory with the move command, mv. The syntax of mv is $ mv file_being_moved location_moving_to. Moving our new file “QE” to our new directory “qe” can be done as follows:
+
+```{python}
+mv qe QE
+```
+
+
+
+
 
 ```{python}
 #| eval: false
 $ cd QE
 
 ```
+
+
+Let's change our working directory to `QE` using `cd`, then run a text editor called `vi` to create a file called `si.in` :
 
 ```{python}
 #| eval: false
@@ -35,7 +49,7 @@ Text editors can be used for writing code, editing text files such as configurat
 
 ### **Vi/Vim Editor**
 
-[Vim](https://www.tecmint.com/install-vim-in-linux/ "How to Install Latest Vim Editor in Linux Systems") is a powerful command-line based text editor that has enhanced the functionalities of the old Unix [Vi text editor](https://www.tecmint.com/vi-editor-usage/ "How to Install and Use vi/vim as a Full Text Editor – Part 2"). It is one the most popular and widely used text editors among System Administrators and programmers that is why many users often refer to it as a programmer\'s editor.
+[Vim](https://www.tecmint.com/install-vim-in-linux/ "How to Install Latest Vim Editor in Linux Systems") is a powerful command-line based text editor that has enhanced the functionalities of the old Unix [Vi text editor](https://www.tecmint.com/vi-editor-usage/ "How to Install and Use vi/vim as a Full Text Editor – Part 2"). It is one the most popular and widely used text editors among System Administrators and programmers that is why many users often refer to it as a programmer's editor.
 
 ::: callout-tip
 ## Vi/Vim Save and Quit command
@@ -47,13 +61,81 @@ The procedure to save a file in vi/vim and quit the editor is as follows:
 3.  hit `Enter` key
 :::
 
-
-
 ### Creating Files in Different way
 
 We have seen how to create text files using the `vi/vim` editor. Now, try the following command in your home directory:
+
 ```{python}
 #| eval: false
 touch QE/si.out
 ```
 
+## Copying Files
+
+We can also copy files, leaving the original file while a second version is created either elsewhere or in the same location. The copy command is cp and its syntax is the same as for mv: $ cp file_being_copied location_copying_to. We can create a copy of “QE” into “qe” directory as follows:
+
+
+```{python}
+cp QE qe 
+```
+
+
+## Removing Files and Directories
+
+If we try to remove the entire thesis directory using `rm QE`, we get an error message:
+
+```{python}
+#| eval: false
+rm QE
+```
+
+::: callout-warning
+## Using rm Safely
+
+What happens when we execute `rm -i QE/si.out`? Why would we want this protection when using `rm`?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+
+`rm: remove regular file 'QE/si.out'?`
+
+The -i flag will prompt before every removal. The Unix shell doesn't have a trash bin, so all the files removed will disappear forever. By using the -i flag, we have the chance to check that we are deleting only the files that we want to remove.
+:::
+
+::: callout-note
+## With Great Power Comes Great Responsibility
+
+Removing the files in a directory recursively can be a very dangerous operation. If we're concerned about what we might be deleting we can add the "interactive" flag `-i` to `rm` which will ask us for confirmation before each step
+
+```{python}
+#| eval: false
+$ rm -r -i QE
+  rm: descend into directory ‘QE’? y
+  rm: remove regular file ‘QE/si.in’? y
+  rm: remove regular file ‘QE/si.out’? y
+  rm: remove directory ‘QE’? y
+```
+:::
+
+::: callout-tip
+## Key Points
+
+-   `cp old new` copies a file.
+
+-   `mkdir path` creates a new directory.
+
+-   `mv old new` moves (renames) a file or directory.
+
+-   `rm path` removes (deletes) a file.
+
+-   `*` matches zero or more characters in a filename, so `*.txt` matches all files ending in `.txt`.
+
+-   `?` matches any single character in a filename, so `?.txt` matches `a.txt` but not `any.txt`.
+
+-   Use of the Control key may be described in many ways, including `Ctrl-X`, `Control-X`, and `^X`.
+
+-   The shell does not have a trash bin: once something is deleted, it\'s really gone.
+
+-   Depending on the type of work you do, you may need a more powerful text editor than `vi`.
+:::
