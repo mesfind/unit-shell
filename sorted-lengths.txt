@@ -1,0 +1,3 @@
+      29 mini_workshop/Si/si-dos.out
+      43 mini_workshop/Si/Si_scf.out
+      72 total

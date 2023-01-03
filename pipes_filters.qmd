@@ -1,21 +1,106 @@
 # Pipes and Filters
 
-Now that we know a few basic commands, we can finally look at the shell’s most powerful feature: the ease with which it lets us combine existing programs in new ways. We’ll start with a directory called molecules that contains six files describing some simple organic molecules.
+Now that we know a few basic commands, we can finally look at the shell's most powerful feature: the ease with which it lets us combine existing programs in new ways. We'll start with a directory called molecules that contains six files describing some simple organic molecules.
 
 ```{python}
-#| eval: false
 
-$ ls mini_workshop/Si
+ls mini_workshop/Si
 ```
 
+Let's go into that directory with cd and run the command `wc *.in`. `wc` is the "word count" command: it counts the number of lines, words, and characters in files (from left to right, in that order).
 
-Let’s go into that directory with cd and run the command `wc *.in`. `wc` is the “word count” command: it counts the number of lines, words, and characters in files (from left to right, in that order).
-
-```{python}
-#| eval: false
-
+```{bash}
 cd mini_workshop/Si
-$ wc *.in
+ls
 ```
 
+```{bash}
 
+wc mini_workshop/Si/*.in
+```
+
+We can also use -w to get only the number of words, or -c to get only the number of characters.
+
+Which of these files is shortest? It's an easy question to answer when there are only six files, but what if there were 6000? Our first step toward a solution is to run the command:
+
+```{bash}
+
+
+wc -l mini_workshop/Si/*.out > lengths.txt
+```
+
+The greater than symbol, \>, tells the shell to redirect the command's output to a file instead of printing it to the screen. (This is why there is no screen output: everything that wc would have printed has gone into the file lengths.txt instead.) The shell will create the file if it doesn't exist. If the file exists, it will be silently overwritten, which may lead to data loss and thus requires some caution. ls lengths.txt confirms that the file exists:
+
+```{bash}
+
+
+ls lengths.txt
+```
+
+We can use the `sort` with `-n` flag to specify that the sort is numerical instead of alphanumerical. This does not change the file; instead, it sends the sorted result to the screen:
+
+```{bash}
+
+
+sort -n  lengths.txt
+```
+
+We can put the sorted list of lines in another temporary file called sorted-lengths.txt by putting \> sorted-lengths.txt after the command, just as we used \> lengths.txt to put the output of wc into lengths.txt.
+
+```{bash}
+
+sort -n lengths.txt > sorted-lengths.txt
+```
+
+Once we've done that, we can run another command called `head` to get the first few lines in sorted-lengths.txt:
+
+```{bash}
+
+
+head -n 1  sorted-lengths.txt
+```
+
+Using `-n 1` with head tells it that we only want the first line of the file; 1-n 20\` would get the first 20, and so on. Since sorted-lengths.txt contains the lengths of our files ordered from least to greatest, the output of head must be the file with the fewest lines.
+
+## Redirecting to the same file
+
+It's a very bad idea to try redirecting the output of a command that operates on a file to the same file. For example:
+
+```{bash}
+#| eval: false
+
+sort -n lengths.txt >  lengths.txt
+```
+
+Doing something like this may give you incorrect results and/or `delete` the contents of `lengths.txt`.
+
+## Piping Commands Together
+
+A pipe is unidirectional interprocess communication channel. The term was coined by Douglas McIlroy for Unix shell and named by analogy with the pipeline.
+
+Pipes are most often used in shell-scripts to connect multiple commands by redirecting the output of one command (stdout) to the input (stdin) followed by using a pipe symbol `|`:
+
+```{bash}
+
+ wc -l sorted-lengths.txt | sort -n | head -n 5
+```
+
+::: callout-tip
+## Key Points
+
+-   `cat` displays the contents of its inputs.
+
+-   `head` displays the first 10 lines of its input.
+
+-   `tail` displays the last 10 lines of its input.
+
+-   `sort` sorts its inputs.
+
+-   `wc` counts lines, words, and characters in its inputs.
+
+-   `command > file` redirects a command\'s output to a file.
+
+-   `first | second` is a pipeline: the output of the first command is used as the input to the second.
+
+-   The best way to use the shell is to use pipes to combine simple single-purpose programs (filters)
+:::

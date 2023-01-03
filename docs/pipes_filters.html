@@ -256,15 +256,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>Pipes and Filters</h1>
 <p>Now that we know a few basic commands, we can finally look at the shell’s most powerful feature: the ease with which it lets us combine existing programs in new ways. We’ll start with a directory called molecules that contains six files describing some simple organic molecules.</p>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>$ ls mini_workshop<span class="op">/</span>Si</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ls mini_workshop<span class="op">/</span>Si</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Si_scf.out*        kpoints.sh*        si_ecut_sample.in* si_kpt_6.in*
+co.rx.in*          pseudo/            si_kpt_10.in*      si_kpt_8.in*
+dos.sh*            pseudos/           si_kpt_12.in*      si_kpt_sample.in*
+dos_plot.py*       si-dos.in*         si_kpt_2.in*       submit.sh*
+job.sh*            si-dos.out*        si_kpt_4.in*</code></pre>
+</div>
 </div>
 <p>Let’s go into that directory with cd and run the command <code>wc *.in</code>. <code>wc</code> is the “word count” command: it counts the number of lines, words, and characters in files (from left to right, in that order).</p>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cd mini_workshop<span class="op">/</span>Si</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>$ wc <span class="op">*</span>.<span class="kw">in</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre class="{bash}"><code>cd mini_workshop/Si
+ls</code></pre>
+<pre class="{bash}"><code>
+wc mini_workshop/Si/*.in</code></pre>
+<p>We can also use -w to get only the number of words, or -c to get only the number of characters.</p>
+<p>Which of these files is shortest? It’s an easy question to answer when there are only six files, but what if there were 6000? Our first step toward a solution is to run the command:</p>
+<pre class="{bash}"><code>
+
+wc -l mini_workshop/Si/*.out &gt; lengths.txt</code></pre>
+<p>The greater than symbol, &gt;, tells the shell to redirect the command’s output to a file instead of printing it to the screen. (This is why there is no screen output: everything that wc would have printed has gone into the file lengths.txt instead.) The shell will create the file if it doesn’t exist. If the file exists, it will be silently overwritten, which may lead to data loss and thus requires some caution. ls lengths.txt confirms that the file exists:</p>
+<pre class="{bash}"><code>
+
+ls lengths.txt</code></pre>
+<p>We can use the <code>sort</code> with <code>-n</code> flag to specify that the sort is numerical instead of alphanumerical. This does not change the file; instead, it sends the sorted result to the screen:</p>
+<pre class="{bash}"><code>
+
+sort -n  lengths.txt</code></pre>
+<p>We can put the sorted list of lines in another temporary file called sorted-lengths.txt by putting &gt; sorted-lengths.txt after the command, just as we used &gt; lengths.txt to put the output of wc into lengths.txt.</p>
+<pre class="{bash}"><code>
+sort -n lengths.txt &gt; sorted-lengths.txt</code></pre>
+<p>Once we’ve done that, we can run another command called <code>head</code> to get the first few lines in sorted-lengths.txt:</p>
+<pre class="{bash}"><code>
+
+head -n 1  sorted-lengths.txt</code></pre>
+<p>Using <code>-n 1</code> with head tells it that we only want the first line of the file; 1-n 20` would get the first 20, and so on. Since sorted-lengths.txt contains the lengths of our files ordered from least to greatest, the output of head must be the file with the fewest lines.</p>
+<section id="redirecting-to-the-same-file" class="level2">
+<h2 class="anchored" data-anchor-id="redirecting-to-the-same-file">Redirecting to the same file</h2>
+<p>It’s a very bad idea to try redirecting the output of a command that operates on a file to the same file. For example:</p>
+<pre class="{bash}"><code>#| eval: false
+
+sort -n lengths.txt &gt;  lengths.txt</code></pre>
+<p>Doing something like this may give you incorrect results and/or <code>delete</code> the contents of <code>lengths.txt</code>.</p>
+</section>
+<section id="piping-commands-together" class="level2">
+<h2 class="anchored" data-anchor-id="piping-commands-together">Piping Commands Together</h2>
+<p>A pipe is unidirectional interprocess communication channel. The term was coined by Douglas McIlroy for Unix shell and named by analogy with the pipeline.</p>
+<p>Pipes are most often used in shell-scripts to connect multiple commands by redirecting the output of one command (stdout) to the input (stdin) followed by using a pipe symbol <code>|</code>:</p>
+<pre class="{bash}"><code>
+ wc -l sorted-lengths.txt | sort -n | head -n 5</code></pre>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Key Points
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><code>cat</code>&nbsp;displays the contents of its inputs.</p></li>
+<li><p><code>head</code>&nbsp;displays the first 10 lines of its input.</p></li>
+<li><p><code>tail</code>&nbsp;displays the last 10 lines of its input.</p></li>
+<li><p><code>sort</code>&nbsp;sorts its inputs.</p></li>
+<li><p><code>wc</code>&nbsp;counts lines, words, and characters in its inputs.</p></li>
+<li><p><code>command &gt; file</code>&nbsp;redirects a command's output to a file.</p></li>
+<li><p><code>first | second</code>&nbsp;is a pipeline: the output of the first command is used as the input to the second.</p></li>
+<li><p>The best way to use the shell is to use pipes to combine simple single-purpose programs (filters)</p></li>
+</ul>
+</div>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
